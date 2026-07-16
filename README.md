@@ -14,7 +14,7 @@ CLONE THIS REPOSITORY
 2. Get a Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
 3. Create your `.env` file:
 ```bash
-   cp .env.example .env
+   nano .env
 ```
    Then edit `.env` and add your key:
 ```
