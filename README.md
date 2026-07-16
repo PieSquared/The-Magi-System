@@ -35,10 +35,6 @@ Or run without arguments to be prompted interactively:
 python magi_system.py
 ```
  
-Use the short version the same way:
- 
-```bash
-python magi_system_short.py "Should we deploy on a Friday?"
-```
+
  
 
