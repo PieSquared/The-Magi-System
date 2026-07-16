@@ -12,30 +12,35 @@ MODEL_NAME = "gemini-3.5-flash"
 # -Setup-
 st.set_page_config(page_title="MAGI System", page_icon="🖥️", layout="centered")
 
+st.title("🖥️ MAGI SYSTEM")
+st.caption("Three-unit AI deliberation, powered by Gemini")
+
 # Try secrets first (for when someone deploys their own with a secret set),
-# otherwise fall back to asking the user for a key via a popup dialog.
-api_key = st.secrets.get("GEMINI_API_KEY") if hasattr(st, "secrets") else None
+# otherwise require the user to type in their own key below.
+secret_key = st.secrets.get("GEMINI_API_KEY") if hasattr(st, "secrets") else None
 
 if "user_api_key" not in st.session_state:
     st.session_state.user_api_key = ""
 
-@st.dialog("Enter your Gemini API key")
-def api_key_popup():
-    st.write("This app doesn't have a stored API key. Paste your own Gemini API key below to use it. It's only kept for this session and isn't saved anywhere.")
-    key_input = st.text_input("Gemini API key", type="password", placeholder="AIza...")
-    st.caption("Get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)")
-    if st.button("Save key", type="primary"):
-        if key_input.strip():
-            st.session_state.user_api_key = key_input.strip()
-            st.rerun()
-        else:
-            st.warning("Please enter a key.")
+with st.expander("🔑 API key", expanded=not secret_key and not st.session_state.user_api_key):
+    if secret_key:
+        st.success("Using API key from Streamlit secrets.")
+    else:
+        key_input = st.text_input(
+            "Gemini API key (required)",
+            type="password",
+            value=st.session_state.user_api_key,
+            placeholder="AIza...",
+        )
+        st.caption("Get a key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey). It's only kept for this session and isn't saved anywhere.")
+        st.session_state.user_api_key = key_input.strip()
 
-if not api_key and not st.session_state.user_api_key:
-    api_key_popup()
+final_key = secret_key or st.session_state.user_api_key
+
+if not final_key:
+    st.warning("Enter your Gemini API key above to use MAGI.")
     st.stop()
 
-final_key = api_key or st.session_state.user_api_key
 client = genai.Client(api_key=final_key)
 
 # -Main logic-
@@ -65,15 +70,6 @@ def magi_debate(question):
     return results, decision
 
 # -UI-
-st.title("🖥️ MAGI SYSTEM")
-st.caption("Three-unit AI deliberation, powered by Gemini")
-
-with st.expander("Using your own API key"):
-    st.write(f"Currently using a key you entered this session.") if st.session_state.user_api_key and not api_key else None
-    if st.button("Change API key"):
-        st.session_state.user_api_key = ""
-        st.rerun()
-
 question = st.text_input("Proposal for MAGI:", placeholder="Should we launch on Friday the 13th?")
 if st.button("Deliberate", type="primary") and question:
     with st.spinner("Consulting MELCHIOR-1, BALTHASAR-2, CASPER-3..."):
