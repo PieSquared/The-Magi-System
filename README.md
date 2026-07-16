@@ -1,4 +1,8 @@
 # The-Magi-System
+
+You can try NOW at https://the-magi-system-yqgsfhv2jn9j4dcnvauhwy.streamlit.app/ 
+
+
 Evangelion refrence lol 
 
 
@@ -37,4 +41,4 @@ python magi_system.py
  
 AI:
 AI was used for this project for bug fixes purposes.
- 
+
