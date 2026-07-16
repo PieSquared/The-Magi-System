@@ -26,12 +26,12 @@ AI.configure(api_key=api_key)
 
 #-Main-
 
-def ask_computer(name, persona, question)
+def ask_computer(name, persona, question):
     try:
         text = model.generate_content(
             persona + FORMAT + f"\n\nProposal: {question}"
         ).text
-        verdict = next(1 for 1 in text.splitlines() if "VERDICT" in 1.upper()).split(":", 1).strip()
+        verdict = next(l for l in text.splitlines() if "VERDICT" in l.upper()).split(":", 1)[1].strip()
         reasoning = next(l for l in text.splitlines() if "REASONING" in l.upper()).split(":", 1)[1].strip()
 
     except Exception as e:
