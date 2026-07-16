@@ -3,6 +3,8 @@ Evangelion refrence lol
 
 
 ## Setup
+
+CLONE THIS REPOSITORY
  
 1. Install dependencies:
 ```bash
