@@ -35,6 +35,7 @@ Or run without arguments to be prompted interactively:
 python magi_system.py
 ```
  
-
+AI:
+AI was used for this project for bug fixes purposes.
  
 
